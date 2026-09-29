@@ -14,9 +14,9 @@ Backend-визитка на NestJS + GraphQL + Prisma + PostgreSQL.
 
 ## Быстрый запуск
 
-\`\`\`bash
+```bash
 docker compose up --build
-\`\`\`
+```
 
 Приложение поднимется на **http://localhost:3000/graphql** (Apollo Sandbox).
 
@@ -27,38 +27,38 @@ docker compose up --build
 
 ## Пример запроса
 
-\`\`\`graphql
+```graphql
 query {
-profile {
-name
-description
-socialLinks {
-source
-url
+  profile {
+    name
+    description
+    socialLinks {
+      source
+      url
+    }
+    skills {
+      name
+    }
+    experience {
+      company
+      position
+      startDate
+      endDate
+      achievements
+    }
+    projects {
+      name
+      url
+    }
+  }
 }
-skills {
-name
-}
-experience {
-company
-position
-startDate
-endDate
-achievements
-}
-projects {
-name
-url
-}
-}
-}
-\`\`\`
+```
 
 ## Переменные окружения
 
 Создай \`.env\` в корне проекта:
 
-\`\`\`env
+```env
 POSTGRES_USER=root
 POSTGRES_PASSWORD=password
 POSTGRES_DATABASE=nestjs-profile
@@ -68,11 +68,11 @@ DATABASE_URL="postgresql://root:password@localhost:5433/nestjs-profile?schema=pu
 
 APP_PORT=3000
 NODE_ENV=production
-\`\`\`
+```
 
 ## Локальная разработка (без Docker)
 
-\`\`\`bash
+```bash
 
 # 1. Запустить только БД
 
@@ -89,11 +89,11 @@ npx prisma migrate deploy --config prisma7.config.ts
 # 4. Запустить в watch-режиме
 
 npm run start:dev
-\`\`\`
+```
 
 ## Структура
 
-\`\`\`
+```
 src/
 ├── profile/ # GraphQL-резолвер, сервис, entities
 ├── prisma/ # PrismaService
@@ -103,7 +103,7 @@ src/
 prisma/
 ├── schema.prisma # Модели данных
 └── migrations/ # История миграций
-\`\`\`
+```
 
 ## Модели данных
 

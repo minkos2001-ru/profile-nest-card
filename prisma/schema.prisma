@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          Int     @id @default(autoincrement()) 
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(300)
+
+  skills      ProfileSkill[]
+  experience  Experience[]
+  socialLinks SocialLink[]
+  projects    Project[]
+
+  @@map("profiles")
+}
+
+model ProfileSkill {
+  profileId Int @map("profile_id")
+  skillId   Int @map("skill_id")
+  @@id([profileId, skillId])
+
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@map("profile_skills")
+}
+
+model Skill {
+  id       Int            @id @default(autoincrement())
+  name     String         @unique @db.VarChar(100)
+
+  profiles ProfileSkill[]
+
+  @@map("skills")
+}
+
+model Experience {
+  id            Int       @id @default(autoincrement())
+  company       String    @db.VarChar(100)
+  position      String    @db.VarChar(100)
+  startDate     DateTime  @db.Date  @map("start_date")
+  endDate       DateTime? @db.Date  @map("end_date") // null is used for the present tense
+  achievements  String[]  
+  profileId     Int       @map("profile_id")
+  
+  profile       Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("experiences")
+}
+
+enum SocialLinkSource {
+  GITHUB
+  LINKEDIN
+  WEBSITE
+
+  @@map("social_link_source")
+}
+
+model SocialLink {
+  source    SocialLinkSource
+  url       String
+  profileId Int @map("profile_id")
+  @@id([source, profileId])
+  
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("social_links")
+}
+
+model Project {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(100)
+  profileId Int     @map("profile_id")
+  url       String
+
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("projects")
+}

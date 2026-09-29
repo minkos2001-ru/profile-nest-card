@@ -95,7 +95,7 @@ export class SeedService implements OnModuleInit {
     return [
       {
         name: 'Profile Card API',
-        url: 'https://github.com/SergeyM1nko/profile-card',
+        url: 'https://github.com/minkos2001-ru/profile-nest-card',
       },
     ];
   }
